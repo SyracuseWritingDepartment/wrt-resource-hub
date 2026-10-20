@@ -1,0 +1,1065 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Writing Studies · Course Resource Hub</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #cbd5e1;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --su-orange: #d44500;
+      --su-navy: #002244;
+      --badge-course-bg: #e0f2fe;
+      --badge-course-text: #0369a1;
+      --badge-focus-bg: #f3e8ff;
+      --badge-focus-text: #6b21a8;
+      --badge-type-bg: #fef3c7;
+      --badge-type-text: #92400e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+    }
+    header {
+      background: var(--su-navy);
+      color: white;
+      padding: 24px 28px;
+      border-bottom: 4px solid var(--su-orange);
+    }
+    header h1 { margin: 0; font-size: 24px; font-weight: 700; }
+    header p { margin: 6px 0 0; color: #94a3b8; font-size: 13.5px; }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 24px 20px 48px;
+    }
+
+    /* Top Cascading Bar */
+    .filter-bar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+      margin-bottom: 22px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)) auto;
+      gap: 14px;
+      align-items: end;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .field label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+    }
+    select, input {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      width: 100%;
+    }
+    select:focus, input:focus {
+      border-color: var(--su-navy);
+      box-shadow: 0 0 0 2px rgba(0, 34, 68, 0.15);
+    }
+    .btn-reset {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      height: 40px;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .btn-reset:hover {
+      background: #e2e8f0;
+      color: var(--text);
+    }
+
+    .results-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13.5px;
+      color: var(--text-muted);
+      padding: 0 4px;
+    }
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.07);
+    }
+    .badge-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 5px;
+    }
+    .badge.course { background: var(--badge-course-bg); color: var(--badge-course-text); font-weight: 700; }
+    .badge.focus { background: var(--badge-focus-bg); color: var(--badge-focus-text); }
+    .badge.type { background: var(--badge-type-bg); color: var(--badge-type-text); }
+    
+    .card h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.35;
+      color: #0f172a;
+    }
+    .card .file-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      word-break: break-all;
+    }
+    .card-bottom {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid #f1f5f9;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .card a.btn-link {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      background: var(--su-navy);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 16px;
+      border-radius: 7px;
+      transition: background 0.15s ease;
+    }
+    .card a.btn-link:hover { background: var(--su-orange); }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px dashed var(--border);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Writing Studies · Instructor Resource Hub</h1>
+  <p>Filter by Course, Assignment Unit / Inquiry Trajectory, and Resource Type</p>
+</header>
+
+<div class="container">
+  <!-- Cascading Filter Bar -->
+  <div class="filter-bar">
+    <!-- Step 1: Course -->
+    <div class="field">
+      <label for="filter-course">1. Course</label>
+      <select id="filter-course">
+        <option value="">All Courses</option>
+        <option value="WRT 105">WRT 105 / 109</option>
+        <option value="WRT 205">WRT 205 / 209</option>
+      </select>
+    </div>
+
+    <!-- Step 2: Dynamic Cascading Dropdown -->
+    <div class="field">
+      <label id="label-focus" for="filter-focus">2. Assignment / Trajectory</label>
+      <select id="filter-focus">
+        <option value="">All Units & Trajectories</option>
+      </select>
+    </div>
+
+    <!-- Step 3: Resource Type -->
+    <div class="field">
+      <label for="filter-type">3. Resource Type</label>
+      <select id="filter-type">
+        <option value="">All Resource Types</option>
+      </select>
+    </div>
+
+    <!-- Search Box -->
+    <div class="field">
+      <label for="filter-search">Keyword Search</label>
+      <input type="text" id="filter-search" placeholder="Search title or filename..." autocomplete="off">
+    </div>
+
+    <button id="btn-reset" class="btn-reset" type="button" title="Clear all filters">Reset</button>
+  </div>
+
+  <div class="results-meta">
+    <div id="results-count">Loading resources...</div>
+  </div>
+
+  <div id="resource-grid" class="resource-grid"></div>
+</div>
+
+<script>
+// All 76 records loaded directly from your updated spreadsheet
+const resources = [
+  {
+    "id": "res-01",
+    "title": "5Unit3Reflection",
+    "fileName": "5Unit3Reflection.docx (1).pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["Assignment Sheet"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/5Unit3Reflection.docx%20(1).pdf?web=1"
+  },
+  {
+    "id": "res-02",
+    "title": "Analysis Noticing Research Slides",
+    "fileName": "Analysis_Noticing_Research_Slides.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["Analysis"],
+    "types": ["Lecture Notes"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Analysis_Noticing_Research_Slides.pdf?web=1"
+  },
+  {
+    "id": "res-03",
+    "title": "Arguing In Communities",
+    "fileName": "Arguing_In_Communities.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["Narrative", "Argument"],
+    "types": ["Student Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Arguing_In_Communities.pdf?web=1"
+  },
+  {
+    "id": "res-04",
+    "title": "Argument vs Analysis Overview",
+    "fileName": "Argument_vs_Analysis_Overview.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["Analysis", "Argument"],
+    "types": ["Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Argument_vs_Analysis_Overview.pdf?web=1"
+  },
+  {
+    "id": "res-05",
+    "title": "Audience And Exigence",
+    "fileName": "Audience_And_Exigence.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Student Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Audience_And_Exigence.pdf?web=1"
+  },
+  {
+    "id": "res-06",
+    "title": "Bad Theses Worksheet",
+    "fileName": "Bad_Theses_Worksheet.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["In-Class Activity", "Homework", "Student Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Bad_Theses_Worksheet.pdf?web=1"
+  },
+  {
+    "id": "res-07",
+    "title": "Blending Sources",
+    "fileName": "Blending Sources.doc.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["Analysis", "Argument"],
+    "types": ["Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Blending%20Sources.doc.pdf?web=1"
+  },
+  {
+    "id": "res-08",
+    "title": "Changing The Face Of Poverty",
+    "fileName": "Changing_The_Face_Of_Poverty.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["Narrative"],
+    "types": ["Student Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Changing_The_Face_Of_Poverty.pdf?web=1"
+  },
+  {
+    "id": "res-09",
+    "title": "citation words",
+    "fileName": "citation words .doc.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/citation%20words%20.doc.pdf?web=1"
+  },
+  {
+    "id": "res-10",
+    "title": "Claims & Warrants",
+    "fileName": "Claims & Warrants.doc.pdf",
+    "courses": ["WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Student Reading", "Lecture Notes"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Claims%20&%20Warrants.doc.pdf?web=1"
+  },
+  {
+    "id": "res-11",
+    "title": "Convictions to Claims",
+    "fileName": "Convictions to Claims.docx (1).pdf",
+    "courses": ["WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Student Reading", "Lecture Notes", "Homework"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Convictions%20to%20Claims.docx%20(1).pdf?web=1"
+  },
+  {
+    "id": "res-12",
+    "title": "creating good titles UMN",
+    "fileName": "creating good titles UMN.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Student Reading", "Lecture Notes", "Homework", "Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/creating%20good%20titles%20UMN.pdf?web=1"
+  },
+  {
+    "id": "res-13",
+    "title": "Curricular Overview WRT 105 205 Fall 2023",
+    "fileName": "Curricular Overview WRT 105_205 Fall 2023.docx.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Instructor Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Curricular%20Overview%20WRT%20105_205%20Fall%202023.docx.pdf?web=1"
+  },
+  {
+    "id": "res-14",
+    "title": "Defining Information Literacy (for 670)",
+    "fileName": "Defining Information Literacy (for 670).docx.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Instructor Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Defining%20Information%20Literacy%20(for%20670).docx.pdf?web=1"
+  },
+  {
+    "id": "res-15",
+    "title": "Editorials Public Argument",
+    "fileName": "Editorials_Public_Argument.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Student Reading", "In-Class Activity"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Editorials_Public_Argument.pdf?web=1"
+  },
+  {
+    "id": "res-16",
+    "title": "Evans",
+    "fileName": "Evans.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["Student Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Evans.pdf?web=1"
+  },
+  {
+    "id": "res-17",
+    "title": "EvolvingThesis Garland-Thompson",
+    "fileName": "EvolvingThesis Garland-Thompson.docx.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["In-Class Activity", "Handout", "Student Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/EvolvingThesis%20Garland-Thompson.docx.pdf?web=1"
+  },
+  {
+    "id": "res-18",
+    "title": "Exigence And Audience",
+    "fileName": "Exigence_And_Audience.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Student Reading", "Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Exigence_And_Audience.pdf?web=1"
+  },
+  {
+    "id": "res-19",
+    "title": "Fall 2025 WRT 105 Course Calendar",
+    "fileName": "Fall 2025 WRT 105 Course Calendar.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["Course Calendar", "Instructor Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Fall%202025%20WRT%20105%20Course%20Calendar.pdf?web=1"
+  },
+  {
+    "id": "res-20",
+    "title": "Finding And Evolving A Thesis",
+    "fileName": "Finding_And_Evolving_A_Thesis.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Handout", "In-Class Activity"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Finding_And_Evolving_A_Thesis.pdf?web=1"
+  },
+  {
+    "id": "res-21",
+    "title": "Fixing Weak Thesis Statements",
+    "fileName": "Fixing_Weak_Thesis_Statements.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["In-Class Activity", "Homework", "Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Fixing_Weak_Thesis_Statements.pdf?web=1"
+  },
+  {
+    "id": "res-22",
+    "title": "FixingWeakThesesVisRhet",
+    "fileName": "FixingWeakThesesVisRhet.doc (1).pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["In-Class Activity", "Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/FixingWeakThesesVisRhet.doc%20(1).pdf?web=1"
+  },
+  {
+    "id": "res-23",
+    "title": "Focused Freewrite",
+    "fileName": "Focused Freewrite.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["In-Class Activity"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Focused%20Freewrite.pdf?web=1"
+  },
+  {
+    "id": "res-24",
+    "title": "Genre Analysis Activity",
+    "fileName": "Genre_Analysis_Activity.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["In-Class Activity", "Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Genre_Analysis_Activity.pdf?web=1"
+  },
+  {
+    "id": "res-25",
+    "title": "Grab Bag of Revision Strategies",
+    "fileName": "Grab Bag of Revision Strategies.docx.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Handout", "In-Class Activity"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Grab%20Bag%20of%20Revision%20Strategies.docx.pdf?web=1"
+  },
+  {
+    "id": "res-26",
+    "title": "Handout - Engaging Digital Literacy in the Undergraduate Writing Classroom",
+    "fileName": "Handout - Engaging Digital Literacy in the Undergraduate Writing Classroom.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Instructor Reading", "Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Handout%20-%20Engaging%20Digital%20Literacy%20in%20the%20Undergraduate%20Writing%20Classroom.pdf?web=1"
+  },
+  {
+    "id": "res-27",
+    "title": "Intro to Library Worksheet",
+    "fileName": "Intro to Library Worksheet.docx.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["In-Class Activity", "Homework", "Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Intro%20to%20Library%20Worksheet.docx.pdf?web=1"
+  },
+  {
+    "id": "res-28",
+    "title": "Intro To Argument Slides",
+    "fileName": "Intro_To_Argument_Slides.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Lecture Notes"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Intro%20To%20Argument%20Slides.pdf?web=1"
+  },
+  {
+    "id": "res-29",
+    "title": "Kairos",
+    "fileName": "Kairos.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Student Reading", "Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Kairos.pdf?web=1"
+  },
+  {
+    "id": "res-30",
+    "title": "Library Database Tips",
+    "fileName": "Library Database Tips.docx.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Library%20Database%20Tips.docx.pdf?web=1"
+  },
+  {
+    "id": "res-31",
+    "title": "Library Research",
+    "fileName": "Library Research.docx.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["In-Class Activity", "Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Library%20Research.docx.pdf?web=1"
+  },
+  {
+    "id": "res-32",
+    "title": "Looking Closer",
+    "fileName": "Looking_Closer.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["In-Class Activity", "Student Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Looking_Closer.pdf?web=1"
+  },
+  {
+    "id": "res-33",
+    "title": "MiniMini Dialogue",
+    "fileName": "MiniMini Dialogue.docx.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["In-Class Activity"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/MiniMini%20Dialogue.docx.pdf?web=1"
+  },
+  {
+    "id": "res-34",
+    "title": "Nobody Mean More To Me",
+    "fileName": "Nobody_Mean_More_To_Me.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["Student Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Nobody_Mean_More_To_Me.pdf?web=1"
+  },
+  {
+    "id": "res-35",
+    "title": "Notes",
+    "fileName": "Notes.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Lecture Notes", "Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Notes.pdf?web=1"
+  },
+  {
+    "id": "res-36",
+    "title": "Overview of Unit 1 Goals",
+    "fileName": "Overview of Unit 1 Goals .docx",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["Instructor Reading", "Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Overview%20of%20Unit%201%20Goals%20.docx?web=1"
+  },
+  {
+    "id": "res-37",
+    "title": "Poem By Maggie Anderson",
+    "fileName": "Poem_By_Maggie_Anderson.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["Student Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Poem_By_Maggie_Anderson.pdf?web=1"
+  },
+  {
+    "id": "res-38",
+    "title": "Project 1 Reflective Essay",
+    "fileName": "Project_1_Reflective_Essay.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["Assignment Sheet"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Project_1_Reflective_Essay.pdf?web=1"
+  },
+  {
+    "id": "res-39",
+    "title": "Project 2 Proposal",
+    "fileName": "Project_2_Proposal.pdf",
+    "courses": ["WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Assignment Sheet"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Project_2_Proposal.pdf?web=1"
+  },
+  {
+    "id": "res-40",
+    "title": "Project 2 Rhetorical Analysis",
+    "fileName": "Project_2_Rhetorical_Analysis.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["Assignment Sheet"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Project_2_Rhetorical_Analysis.pdf?web=1"
+  },
+  {
+    "id": "res-41",
+    "title": "Reading And Writing About Pictures",
+    "fileName": "Reading_And_Writing_About_Pictures.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["Student Reading", "In-Class Activity"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Reading_And_Writing_About_Pictures.pdf?web=1"
+  },
+  {
+    "id": "res-42",
+    "title": "Reasoning From Evidence To Claims",
+    "fileName": "Reasoning_From_Evidence_To_Claims.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Handout", "Lecture Notes"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Reasoning_From_Evidence_To_Claims.pdf?web=1"
+  },
+  {
+    "id": "res-43",
+    "title": "Recognizing And Fixing Bad Theses",
+    "fileName": "Recognizing_And_Fixing_Bad_Theses.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["In-Class Activity", "Homework", "Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Recognizing_And_Fixing_Bad_Theses.pdf?web=1"
+  },
+  {
+    "id": "res-44",
+    "title": "Research Starts With A Thesis",
+    "fileName": "Research_Starts_With_A_Thesis.pdf",
+    "courses": ["WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Student Reading", "Lecture Notes"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Research_Starts_With_A_Thesis.pdf?web=1"
+  },
+  {
+    "id": "res-45",
+    "title": "Research Starts With Thesis",
+    "fileName": "Research_Starts_With_Thesis.pdf",
+    "courses": ["WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Student Reading", "Lecture Notes"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Research_Starts_With_Thesis.pdf?web=1"
+  },
+  {
+    "id": "res-46",
+    "title": "Rhetorical Outlining",
+    "fileName": "Rhetorical Outlining.docx.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Handout", "In-Class Activity"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Rhetorical%20Outlining.docx.pdf?web=1"
+  },
+  {
+    "id": "res-47",
+    "title": "Rhetorical Precis",
+    "fileName": "Rhetorical Precis.doc.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Assignment Sheet", "Handout", "Homework"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Rhetorical%20Precis.doc.pdf?web=1"
+  },
+  {
+    "id": "res-48",
+    "title": "Rhetorical Sourcing Fall 2016",
+    "fileName": "Rhetorical Sourcing Fall 2016.docx.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["In-Class Activity", "Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Rhetorical%20Sourcing%20Fall%202016.docx.pdf?web=1"
+  },
+  {
+    "id": "res-49",
+    "title": "Rhetorical Situation Object Analysis",
+    "fileName": "Rhetorical_Situation_Object_Analysis.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["In-Class Activity", "Assignment Sheet"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Rhetorical_Situation_Object_Analysis.pdf?web=1"
+  },
+  {
+    "id": "res-50",
+    "title": "Rhetorical Sourcing",
+    "fileName": "Rhetorical_Sourcing.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["In-Class Activity", "Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Rhetorical%20Sourcing.pdf?web=1"
+  },
+  {
+    "id": "res-51",
+    "title": "Rhetorical Summary Heuristic",
+    "fileName": "Rhetorical_Summary_Heuristic.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Handout", "In-Class Activity"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Rhetorical_Summary_Heuristic.pdf?web=1"
+  },
+  {
+    "id": "res-52",
+    "title": "Rubric Reflection Activity",
+    "fileName": "Rubric_Reflection_Activity.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["In-Class Activity", "Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Rubric_Reflection_Activity.pdf?web=1"
+  },
+  {
+    "id": "res-53",
+    "title": "sample FINAL REFLECTION 2",
+    "fileName": "sample FINAL REFLECTION 2.docx.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Handout", "Student Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/sample%20FINAL%20REFLECTION%202.docx.pdf?web=1"
+  },
+  {
+    "id": "res-54",
+    "title": "Sample Unit 1 Rubric",
+    "fileName": "Sample_Unit_1_Rubric.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["Handout", "Instructor Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Sample_Unit_1_Rubric.pdf?web=1"
+  },
+  {
+    "id": "res-55",
+    "title": "Seems To Be About X",
+    "fileName": "Seems_To_Be_About_X.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["In-Class Activity", "Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Seems_To_Be_About_X.pdf?web=1"
+  },
+  {
+    "id": "res-56",
+    "title": "Six Strategies For Analyzing Sources",
+    "fileName": "Six_Strategies_For_Analyzing_Sources.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Handout", "Student Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Six_Strategies_For_Analyzing_Sources.pdf?web=1"
+  },
+  {
+    "id": "res-57",
+    "title": "Slides Peer Review",
+    "fileName": "Slides_Peer_Review.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Lecture Notes"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Slides_Peer_Review.pdf?web=1"
+  },
+  {
+    "id": "res-58",
+    "title": "Slides Unit 1",
+    "fileName": "Slides_Unit_1.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["Lecture Notes"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Slides_Unit_1.pdf?web=1"
+  },
+  {
+    "id": "res-59",
+    "title": "Strong Writers Dont Need Revision",
+    "fileName": "Strong_Writers_Dont_Need_Revision.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Student Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Strong_Writers_Dont_Need_Revision.pdf?web=1"
+  },
+  {
+    "id": "res-60",
+    "title": "SU Library Slideshow",
+    "fileName": "SU_Library_Slideshow.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Lecture Notes"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/SU_Library_Slideshow.pdf?web=1"
+  },
+  {
+    "id": "res-61",
+    "title": "Suggestions for using Blackboard in WRT 105",
+    "fileName": "Suggestions for using Blackboard in WRT 105.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["Instructor Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Suggestions%20for%20using%20Blackboard%20in%20WRT%20105.pdf?web=1"
+  },
+  {
+    "id": "res-62",
+    "title": "Summary Heuristic",
+    "fileName": "Summary_Heuristic.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Handout", "In-Class Activity"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Summary_Heuristic.pdf?web=1"
+  },
+  {
+    "id": "res-63",
+    "title": "ThesisConstruction",
+    "fileName": "ThesisConstruction.doc.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Handout", "In-Class Activity"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/ThesisConstruction.doc.pdf?web=1"
+  },
+  {
+    "id": "res-64",
+    "title": "Titling Exercise",
+    "fileName": "Titling_Exercise.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["In-Class Activity"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Titling_Exercise.pdf?web=1"
+  },
+  {
+    "id": "res-65",
+    "title": "Unit 1 Course Calendar Ideas",
+    "fileName": "Unit 1 Course Calendar Ideas.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["Course Calendar", "Instructor Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Unit%201%20Course%20Calendar%20Ideas.pdf?web=1"
+  },
+  {
+    "id": "res-66",
+    "title": "Unit 2 Assignment",
+    "fileName": "Unit_2_Assignment.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["Assignment Sheet"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Unit%202%20Assignment.pdf?web=1"
+  },
+  {
+    "id": "res-67",
+    "title": "Unit 3 Assignment Sheet",
+    "fileName": "Unit_3_Assignment_Sheet.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["Assignment Sheet"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Unit%203%20Assignment%20Sheet.pdf?web=1"
+  },
+  {
+    "id": "res-68",
+    "title": "Visual Analysis Exercise",
+    "fileName": "Visual_Analysis_Exercise.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["In-Class Activity", "Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Visual_Analysis_Exercise.pdf?web=1"
+  },
+  {
+    "id": "res-69",
+    "title": "Visual Rhetoric Strategies",
+    "fileName": "Visual_Rhetoric_Strategies.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["Handout", "Student Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Visual_Rhetoric_Strategies.pdf?web=1"
+  },
+  {
+    "id": "res-70",
+    "title": "What It Means To Have An Idea",
+    "fileName": "What_It_Means_To_Have_An_Idea.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["Student Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/What_It_Means_To_Have_An_Idea.pdf?web=1"
+  },
+  {
+    "id": "res-71",
+    "title": "Whistlers Mother Analysis",
+    "fileName": "Whistlers_Mother_Analysis.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["In-Class Activity", "Student Reading"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Whistlers_Mother_Analysis.pdf?web=1"
+  },
+  {
+    "id": "res-72",
+    "title": "Writing Process Reflection Prompts",
+    "fileName": "Writing_Process_Reflection_Prompts.pdf",
+    "courses": ["WRT 105", "WRT 109", "WRT 205", "WRT 209"],
+    "focus": ["General"],
+    "types": ["In-Class Activity", "Homework", "Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/Writing_Process_Reflection_Prompts.pdf?web=1"
+  },
+  {
+    "id": "res-73",
+    "title": "WRT 105 Overview (601)",
+    "fileName": "WRT 105 Overview (601) .ppt.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["Instructor Reading", "Lecture Notes"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/WRT%20105%20Overview%20(601)%20.ppt.pdf?web=1"
+  },
+  {
+    "id": "res-74",
+    "title": "WRT 105 unit 1 asst",
+    "fileName": "WRT 105 unit 1 asst.docx.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["Assignment Sheet"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/WRT%20105%20unit%201%20asst.docx.pdf?web=1"
+  },
+  {
+    "id": "res-75",
+    "title": "WRT 105 Reading List",
+    "fileName": "WRT_105_Reading_List.pdf",
+    "courses": ["WRT 105", "WRT 109"],
+    "focus": ["General"],
+    "types": ["Instructor Reading", "Handout"],
+    "url": "https://sumailsyr.sharepoint.com/sites/WritingStudies/Shared%20Documents/Lower%20Division/WRT%20105%20Materials/WRT_105_Reading_List.pdf?web=1"
+  },
+  {
+    "id": "res-76",
+    "title": "Unit 1 Critical Reflection Assignment Sheet",
+    "fileName": "Unit 1 Critical Reflection Assignment Sheet",
+    "courses": ["WRT 205", "WRT 209"],
+    "focus": ["Writing, Ethics, and Civic Discourse"],
+    "types": ["Assignment Sheet"],
+    "url": "Unit 1 (Critical Reflection) Assignment Sheet.pdf"
+  }
+];
+
+const elCourse = document.getElementById('filter-course');
+const elFocus = document.getElementById('filter-focus');
+const lblFocus = document.getElementById('label-focus');
+const elType = document.getElementById('filter-type');
+const elSearch = document.getElementById('filter-search');
+const elGrid = document.getElementById('resource-grid');
+const elCount = document.getElementById('results-count');
+const btnReset = document.getElementById('btn-reset');
+
+const options105 = ["Narrative", "Analysis", "Argument"];
+const options205 = [
+  "Writing and the Arts",
+  "Writing, Ethics, and Civic Discourses",
+  "Writing and Organizational Cultures",
+  "Writing and Science",
+  "Writing and Technology"
+];
+
+function updateFocusDropdown() {
+  const selCourse = elCourse.value;
+  elFocus.innerHTML = '<option value="">All Units & Trajectories</option>';
+
+  if (selCourse === 'WRT 105') {
+    lblFocus.textContent = '2. Assignment Type';
+    options105.forEach(opt => elFocus.add(new Option(opt, opt)));
+  } else if (selCourse === 'WRT 205') {
+    lblFocus.textContent = '2. Inquiry Trajectory';
+    options205.forEach(opt => elFocus.add(new Option(opt, opt)));
+  } else {
+    lblFocus.textContent = '2. Unit / Trajectory';
+    const all = [
+      ...options105,
+      ...options205
+    ];
+    all.forEach(opt => elFocus.add(new Option(opt, opt)));
+  }
+}
+
+function populateTypeDropdown() {
+  const types = [...new Set(resources.flatMap(r => r.types))].sort();
+  types.forEach(t => elType.add(new Option(t, t)));
+}
+
+function render() {
+  const selCourse = elCourse.value;
+  const selFocus = elFocus.value;
+  const selType = elType.value;
+  const q = elSearch.value.toLowerCase().trim();
+
+  const filtered = resources.filter(r => {
+    // 1. Course Match
+    const matchesCourse = !selCourse || r.courses.some(c => c.includes(selCourse));
+
+    // 2. Focus / Trajectory Match: matches chosen value, or foundational "General"
+    let matchesFocus = true;
+    if (selFocus) {
+      const normSel = selFocus.toLowerCase().replace(/discourses?/, 'discourse');
+      const hasSpecificMatch = r.focus.some(f => {
+        const normF = f.toLowerCase().replace(/discourses?/, 'discourse');
+        return normF === normSel;
+      });
+      const isGeneral = r.focus.includes("General") || r.focus.length === 0;
+      matchesFocus = hasSpecificMatch || isGeneral;
+    }
+
+    // 3. Resource Type Match
+    const matchesType = !selType || r.types.includes(selType);
+
+    // 4. Keyword Search
+    const matchesQuery = !q || 
+      r.title.toLowerCase().includes(q) || 
+      r.fileName.toLowerCase().includes(q) ||
+      r.courses.some(c => c.toLowerCase().includes(q)) ||
+      r.focus.some(f => f.toLowerCase().includes(q)) ||
+      r.types.some(t => t.toLowerCase().includes(q));
+
+    return matchesCourse && matchesFocus && matchesType && matchesQuery;
+  });
+
+  elCount.textContent = `Showing ${filtered.length} of ${resources.length} resources`;
+
+  if (filtered.length === 0) {
+    elGrid.innerHTML = `
+      <div class="empty-state">
+        <h3 style="margin-top:0;">No matching resources found</h3>
+        <p>Try clearing your focus selection or search query.</p>
+      </div>`;
+    return;
+  }
+
+  elGrid.innerHTML = filtered.map(r => `
+    <article class="card">
+      <div>
+        <div class="badge-group">
+          ${r.courses.map(c => `<span class="badge course">${c}</span>`).join('')}
+          ${r.focus.map(f => `<span class="badge focus">${f}</span>`).join('')}
+          ${r.types.map(t => `<span class="badge type">${t}</span>`).join('')}
+        </div>
+        <h3>${r.title}</h3>
+        <div class="file-sub">${r.fileName}</div>
+      </div>
+      <div class="card-bottom">
+        <a class="btn-link" href="${r.url}" target="_blank" rel="noopener">Open Resource ↗</a>
+      </div>
+    </article>
+  `).join('');
+}
+
+elCourse.addEventListener('change', () => {
+  updateFocusDropdown();
+  render();
+});
+
+elFocus.addEventListener('change', render);
+elType.addEventListener('change', render);
+elSearch.addEventListener('input', render);
+
+btnReset.addEventListener('click', () => {
+  elCourse.value = '';
+  updateFocusDropdown();
+  elFocus.value = '';
+  elType.value = '';
+  elSearch.value = '';
+  render();
+});
+
+updateFocusDropdown();
+populateTypeDropdown();
+render();
+</script>
+</body>
+</html>
